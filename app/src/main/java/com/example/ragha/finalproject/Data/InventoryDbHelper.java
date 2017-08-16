@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+import java.math.BigInteger;
+
 import static com.example.ragha.finalproject.Data.InventoryContract.Input.COLUMN_ITEM_IMAGE;
 import static com.example.ragha.finalproject.Data.InventoryContract.Input.COLUMN_ITEM_NAME;
 import static com.example.ragha.finalproject.Data.InventoryContract.Input.COLUMN_ITEM_QUANTITY;
@@ -98,12 +100,12 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void updateItem(long currentItemId, int quantity, String newName, int price, String supplier) {
+    public void updateItem(long currentItemId, int quantity, String newName, BigInteger price, String supplier) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_ITEM_QUANTITY, quantity);
         values.put(COLUMN_ITEM_NAME, newName);
-        values.put(COLUMN__ITEM_PRICE, price);
+        values.put(COLUMN__ITEM_PRICE, String.valueOf(price));
         values.put(COLUMN_ITEM_SUPPLIER_NAME, supplier);
         String selection = _ID + "=?";
         String[] selectionArgs = new String[]{String.valueOf(currentItemId)};

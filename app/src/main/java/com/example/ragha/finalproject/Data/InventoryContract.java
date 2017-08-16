@@ -7,7 +7,9 @@ package com.example.ragha.finalproject.Data;
 import android.provider.BaseColumns;
 
 public class InventoryContract {
+
     public InventoryContract() {
+        //Initialization of class
     }
 
     public static final class Input implements BaseColumns {

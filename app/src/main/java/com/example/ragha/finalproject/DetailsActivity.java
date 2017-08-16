@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +32,12 @@ import com.example.ragha.finalproject.Data.InventoryDbHelper;
 import com.example.ragha.finalproject.Data.ItemEntry;
 
 
+import java.io.File;
+import java.math.BigInteger;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.ragha.finalproject.Data.InventoryContract.Input.COLUMN_ITEM_IMAGE;
 import static com.example.ragha.finalproject.Data.InventoryContract.Input.COLUMN_ITEM_NAME;
 import static com.example.ragha.finalproject.Data.InventoryContract.Input.COLUMN_ITEM_QUANTITY;
@@ -44,35 +51,37 @@ public class DetailsActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private InventoryDbHelper dbHelper;
-    EditText nameEdit;
-    EditText priceEdit;
-    EditText quantityEdit;
-    EditText supplierNameEdit;
     long currentItemId;
-    ImageButton decreaseQuantity;
-    ImageButton increaseQuantity;
-    Button imageBtn;
-    ImageView imageView;
     Uri actualUri;
     private static final int PICK_IMAGE_REQUEST = 0;
     Boolean infoItemHasChanged = false;
+
+    @BindView(R.id.itemName_editText)
+    EditText nameEdit;
+    @BindView(R.id.itemPrice_editText)
+    EditText priceEdit;
+    @BindView(R.id.quantity_edit)
+    EditText quantityEdit;
+    @BindView(R.id.itemSupplier_editText)
+    EditText supplierNameEdit;
+    @BindView(R.id.decrease_quantity)
+    ImageButton decreaseQuantity;
+    @BindView(R.id.increase_quantity)
+    ImageButton increaseQuantity;
+    @BindView(R.id.select_image)
+    Button imageBtn;
+    @BindView(R.id.image_view)
+    ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        ButterKnife.bind(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        nameEdit = (EditText) findViewById(R.id.itemName_editText);
-        priceEdit = (EditText) findViewById(R.id.itemPrice_editText);
-        quantityEdit = (EditText) findViewById(R.id.quantity_edit);
-        supplierNameEdit = (EditText) findViewById(R.id.itemSupplier_editText);
-        decreaseQuantity = (ImageButton) findViewById(R.id.decrease_quantity);
-        increaseQuantity = (ImageButton) findViewById(R.id.increase_quantity);
-        imageBtn = (Button) findViewById(R.id.select_image);
-        imageView = (ImageView) findViewById(R.id.image_view);
 
         dbHelper = new InventoryDbHelper(this);
         currentItemId = getIntent().getLongExtra("itemId", 0);
@@ -250,8 +259,9 @@ public class DetailsActivity extends AppCompatActivity {
             int quantity = Integer.parseInt(quantityEdit.getText().toString().trim());
             String newName = nameEdit.getText().toString();
             String newSupplier = supplierNameEdit.getText().toString();
-            int price = Integer.parseInt(priceEdit.getText().toString().trim());
-            dbHelper.updateItem(currentItemId, quantity, newName, price, newSupplier);
+            String price = priceEdit.getText().toString().trim();
+            BigInteger b = new BigInteger(price);
+            dbHelper.updateItem(currentItemId, quantity, newName, b, newSupplier);
         }
         return true;
     }
@@ -309,6 +319,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(android.content.Intent.ACTION_SENDTO);
                 intent.setType("text/plain");
+
                 intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_TEXT, createEmailMessage(name, price, supplier, quantity));
                 String bodyMessage = "The item is - " +

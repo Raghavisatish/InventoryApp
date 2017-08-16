@@ -37,23 +37,35 @@ public class ItemsAdapter extends CursorAdapter {
         return LayoutInflater.from(context).inflate(R.layout.list_item, viewGroup, false);
     }
 
+    static class ViewHolder {
+        TextView nameTextView;
+        TextView quantityTextView;
+        ImageView sale;
+        ImageView image;
+        TextView priceTextView;
+    }
+
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
-        TextView nameTextView = (TextView) view.findViewById(R.id.product_name);
-        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
-        ImageView sale = (ImageView) view.findViewById(R.id.sale);
-        ImageView image = (ImageView) view.findViewById(R.id.image_view);
-        TextView priceTextView = (TextView) view.findViewById(R.id.price);
+
+        ViewHolder holder = new ViewHolder();
+
+
+        holder.nameTextView = (TextView) view.findViewById(R.id.product_name);
+        holder.quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        holder.sale = (ImageView) view.findViewById(R.id.sale);
+        holder.image = (ImageView) view.findViewById(R.id.image_view);
+        holder.priceTextView = (TextView) view.findViewById(R.id.price);
+        view.setTag(holder);
 
         String name = cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_NAME));
         final int quantity = cursor.getInt(cursor.getColumnIndex(COLUMN_ITEM_QUANTITY));
         int price = cursor.getInt(cursor.getColumnIndex(COLUMN__ITEM_PRICE));
 
-        image.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_IMAGE))));
-
-        nameTextView.setText(name);
-        quantityTextView.setText(String.valueOf(quantity));
-        priceTextView.setText(String.valueOf(price));
+        holder.image.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndex(COLUMN_ITEM_IMAGE))));
+        holder.nameTextView.setText(name);
+        holder.quantityTextView.setText(String.valueOf(quantity));
+        holder.priceTextView.setText(String.valueOf(price));
 
         final long id = cursor.getLong(cursor.getColumnIndex(InventoryContract.Input._ID));
 
@@ -64,7 +76,7 @@ public class ItemsAdapter extends CursorAdapter {
             }
         });
 
-        sale.setOnClickListener(new View.OnClickListener() {
+        holder.sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 activity.clickOnSale(id,

@@ -13,19 +13,26 @@ import android.widget.ListView;
 
 import com.example.ragha.finalproject.Data.InventoryDbHelper;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.ragha.finalproject.Data.InventoryContract.Input.TABLE_NAME;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static String LOG_TAG = MainActivity.class.getCanonicalName();
     InventoryDbHelper dbHelper;
     ItemsAdapter adapter;
+    @BindView(R.id.list_view)
+    ListView listView;
+    @BindView(R.id.empty_view)
+    View emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         dbHelper = new InventoryDbHelper(this);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -37,12 +44,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final ListView listView = (ListView) findViewById(R.id.list_view);
-        View emptyView = findViewById(R.id.empty_view);
         listView.setEmptyView(emptyView);
-
         Cursor cursor = dbHelper.readInput();
-
         adapter = new ItemsAdapter(this, cursor);
         listView.setAdapter(adapter);
     }

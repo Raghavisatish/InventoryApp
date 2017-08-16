@@ -36,19 +36,10 @@ public class ItemEntry {
         return mSupplierName;
     }
 
-
     public String getmImage() {
         return mImage;
     }
 
-    @Override
-    public String toString() {
-        return "StockItem{" +
-                "productName='" + mProductName + '\'' +
-                ", price='" + mPrice + '\'' +
-                ", quantity=" + mQuantity +
-                ", supplierName='" + mSupplierName + '\'' +
-                '}';
-    }
+
 
 }
