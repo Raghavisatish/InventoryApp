@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">FinalProject</string>
+    <string name="text">Start adding inventory</string>
+    <string name="title_new_item">Add new item</string>
+    <string name="title_edit_item">Edit item</string>
+    <string name="unsaved_changes_dialog_msg">There are unsaved changes in the product information. Do you want to continue?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
+    <string name="email">E-mail</string>
+    <string name="order_message">You can place an order for this item</string>
+    <string name="delete_message">Are you sure you want to procede with the deletion?</string>
+    <string name="delete">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="itemname">Enter the name of the item</string>
+    <string name="itemprice">Enter the price of the item</string>
+    <string name="itemsupplier">Enter the name of the supplier</string>
+</resources>
